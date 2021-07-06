@@ -23,15 +23,23 @@ class Hat:
             return self.contents
 
 def comparelist (list1, list2):
-    for i, val in enumerate(list2):
+    #for i, val in enumerate(list2):
+    i = 0
+    while i < len(list2):
         if len(list2) == 0:
-            return True
+            return True    
         for j, val in enumerate(list1):
             if list2[i] == list1[j]:
                 list2.pop(i)
-                list1.pop(i)
+                list1.pop(j)
+                i = 0
                 break
-    return False
+            if j == len(list1) - 1:
+                i = i + 1
+    if len(list2) == 0:
+        return True
+    else:
+        return False
 
 
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
@@ -44,8 +52,8 @@ def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
     for i in range(num_experiments):
         l = copy.deepcopy(hat)
         res = l.draw(num_balls_drawn)
-        #check = all(item in res for item in exp)
-        check = comparelist(res, exp)
+        exp2 = copy.deepcopy(exp)
+        check = comparelist(res, exp2)
         if check:
             M = M + 1
     return M/num_experiments
